@@ -1,1 +1,1 @@
-Programs made by a beginner, contains errors
+Examples of partial programs, contains errors
