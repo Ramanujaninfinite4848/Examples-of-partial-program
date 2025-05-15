@@ -1,1 +1,1 @@
-Programs for beginners, contains errors
+Programs made by a beginner, contains errors
