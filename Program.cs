@@ -1,7 +1,8 @@
-﻿using TruckLib.ScsMap;
+using TruckLib.ScsMap;
 using System.Numerics;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Example
 {
@@ -13,6 +14,19 @@ namespace Example
             Map map = Map.Open(@"C:\Users\worker\Documents\Euro Truck Simulator 2\mod\user_map\map\example.mbd");
             map.NormalScale = 1;
             map.CityScale = 1;
+
+            //add and fix
+//             1) If you know the UID of the road item you want to modify, you can access it like this:
+
+//            Road road = (Road)map.MapItems[0x44f975eb93d62122];
+
+//              2) If you don't have a UID, you can fetch a collection of all road items to iterate over it:
+
+            // var roads = map.MapItems.Where(x => x.Value is Road);
+            // foreach (var (_, road) in roads)
+            // {
+            //     // ...
+            // }
 
             bool exists = map.MapItems.TryGetValue(0x521CD80FA4000001, out MapItem item);
 
