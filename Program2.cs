@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -11,7 +11,7 @@ namespace BuildingCreator
     {
         static void Main(string[] args)
         {
-   
+
             var map = new Map("example");
             
             // Define building footprint (rectangular)
@@ -23,38 +23,31 @@ namespace BuildingCreator
                 new Vector3(0, 0, 8)     // Corner 4
             };
 
-            // Create building walls using available methods
-            CreateBuildingStructure(map, buildingCorners, 5f, "137");
+            // Create building with proper method
+            CreateBuilding(map, buildingCorners, "scheme76");
 
-  
             var docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var modPath = Path.Combine(docs, "Euro Truck Simulator 2/mod/user_map/map/");
             Directory.CreateDirectory(modPath);
             map.Save(modPath);
         }
 
-        static void CreateBuildingStructure(Map map, List<Vector3> footprint, float height, string buildingStyle)
+        static void CreateBuilding(Map map, List<Vector3> footprint, string buildingScheme)
         {
-            // Create nodes at each corner
-            var nodes = footprint.ConvertAll(pos => map.AddNode(new Vector3(pos.X, height, pos.Z)));
+            // Create building between two opposite corners
+            var building = Buildings.Add(
+                map,
+                footprint[0],  // Start position (bottom-left)
+                footprint[2],  // End position (top-right)
+                buildingScheme
+            );
 
-            // Connect nodes to create building outline
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                int nextIndex = (i + 1) % nodes.Count;
-                
-                // Create building segments (using available methods)
-                var segment = Building.Add(
-                    map,
-                    nodes[i].Position,
-                    nodes[nextIndex].Position,
-                    buildingStyle
-                );
-                
-                // Set common properties
-                segment.Collision = true;
-                segment.ViewDistance = 400;
-            }
+            // Set available properties
+            building.ViewDistance = 400;
+            building.Collision = true;
+            
+            // Note: Height is automatically determined by the building scheme
+            // and cannot be modified directly in this version of TruckLib
         }
     }
 }
