@@ -47,7 +47,7 @@ namespace BuildingCreator
             building.Collision = true;
             
             // Note: Height is automatically determined by the building scheme
-            // and cannot be modified directly in this version of TruckLib
+
         }
     }
 }
